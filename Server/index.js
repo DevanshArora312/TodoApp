@@ -7,16 +7,15 @@ const getTodoRoutes = require("./routes/getTodoRoutes");
 const createCommentRoutes = require("./routes/commentRoutes");
 const cors = require("cors");
 
-const corsOptions = {
-    origin: 'http://localhost:5173',
-    methods: 'GET,POST,PUT,DELETE',
-    allowedHeaders: 'Content-Type,Authorization'
-  };
+// const corsOptions = {
+//     origin: 'http://localhost:5173',
+//     methods: 'GET,POST,PUT,DELETE',
+//     allowedHeaders: 'Content-Type,Authorization'
+//   };
 
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(cors());
 app.use("/api/v1",createTodoRoutes);
-console.log("chalja bsdk");
 app.use("/api/v1",getTodoRoutes);
 app.use("/api/v1",createCommentRoutes);
 
