@@ -16,7 +16,7 @@ const corsOptions = {
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use("/api/v1",createTodoRoutes);
-
+console.log("chalja bsdk");
 app.use("/api/v1",getTodoRoutes);
 app.use("/api/v1",createCommentRoutes);
 
