@@ -6,7 +6,7 @@ const createTodoRoutes = require("./routes/createTodoRoutes");
 const getTodoRoutes = require("./routes/getTodoRoutes");
 const createCommentRoutes = require("./routes/commentRoutes");
 const cors = require("cors");
-const serverless = require("serverless-http");
+// const serverless = require("serverless-http");
 
 // const corsOptions = {
 //     origin: 'http://localhost:5173',
@@ -30,4 +30,3 @@ app.listen(process.env.PORT, () => {
 })
 
 dbConnect();
-module.exports.handler = serverless(app);
