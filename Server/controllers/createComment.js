@@ -4,7 +4,7 @@ exports.createComment = async (req,res) => {
     try {
         const {user, comment,todoID} = req.body;
         const response = await commentsModel.create({user, comment,todoID});
-        res.status(200).json(
+        return res.status(200).json(
             {
                 ok:true,
                 success : true,
@@ -14,7 +14,7 @@ exports.createComment = async (req,res) => {
     }
     catch{
         console.log("Some create error occured!");
-        res.status(500).json(
+        return res.status(500).json(
             {
                 ok:false,
                 success:false,

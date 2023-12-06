@@ -4,7 +4,7 @@ exports.getComments = async (req,res) => {
     // console.log("Hello");
     try {
         const comments = await commentsModel.find({});
-        res.status(200).json(
+        return res.status(200).json(
             {
                 ok:true,
                 success:true,
@@ -14,7 +14,7 @@ exports.getComments = async (req,res) => {
     }
     catch(err){
         console.log("Some error occured!");
-        res.status(500).json(
+        return res.status(500).json(
             {
                 ok:false,
                 success:false,
@@ -39,7 +39,7 @@ exports.getCommentByID = async (req,res) => {
             )
         }
         
-        res.status(200).json(
+        return res.status(200).json(
             {
                 ok:true,
                 success:true,
@@ -49,7 +49,7 @@ exports.getCommentByID = async (req,res) => {
     }
     catch(err){
         console.log("Some error occured!");
-        res.status(500).json(
+        return res.status(500).json(
             {
                 ok:false,
                 success:false,

@@ -5,7 +5,7 @@ exports.deleteComment = async (req,res) => {
         const {id} = req.params;
         const comments = await commentModel.findByIdAndDelete( {_id : id} );
         
-        res.status(200).json(
+        return res.status(200).json(
             {
                 ok:true,
                 success:true,
@@ -15,7 +15,7 @@ exports.deleteComment = async (req,res) => {
     }
     catch(err){
         console.log("Some error occured!");
-        res.status(500).json(
+        return res.status(500).json(
             {
                 ok:false,
                 success:false,
