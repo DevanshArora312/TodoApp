@@ -39,7 +39,7 @@ const SingleTodo = () => {
     return ( 
         <>
         <NavBar/> 
-        <div className="px-[15%] pt-[15vh]">
+        <div className="sm:px-[15%] px-[8%] pt-[15vh]">
             {
                 todo && !deleted &&
                 <div className="flex flex-col gap-y-10">
