@@ -2,7 +2,7 @@ import {Link} from "react-router-dom"
 
 const NavBar = () => {
     return ( 
-        <div className="w-full h-auto flex justify-around items-center pt-10 text-3xl">
+        <div className="w-full h-auto flex justify-around items-center pt-10 text-3xl px-10">
             <div className="text-red-500 font-semibold">
                 The Todo List
             </div>
