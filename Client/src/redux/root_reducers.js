@@ -3,8 +3,8 @@ import { combineReducers } from 'redux';
 
 import activeReducer from './slices/active';
 import spaceReducer from './slices/space';
-
-
+import todosReducer from './slices/todos';
+import authReducer from './slices/auth'
 
 
 // const rootPersistConfig = {
@@ -17,8 +17,9 @@ import spaceReducer from './slices/space';
 
 const rootReducer = combineReducers({
   active : activeReducer,
-  space : spaceReducer
-
+  space : spaceReducer,
+  todos : todosReducer,
+  auth : authReducer
 });
 
 export { rootReducer};

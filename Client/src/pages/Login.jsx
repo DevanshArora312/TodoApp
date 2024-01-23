@@ -1,6 +1,6 @@
 import React, { Suspense, useState } from 'react'
-import Loader from './Loader';
-import {Space} from "./models/Space"
+import Loader from '../components/Loader';
+import {Space} from "../models/Space"
 import {Canvas } from "@react-three/fiber"
 
 const Login = () => {

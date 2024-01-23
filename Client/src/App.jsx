@@ -1,10 +1,10 @@
 import './App.css'
 import {BrowserRouter,Routes,Route} from "react-router-dom";
-import Home from './Home';
-import CreateTodo from "./CreateTodo";
-import SingleTodo from './SingleTodo';
-import UpdateTodo from './UpdateTodo';
-import Login from './Login';
+import Home from './pages/Home';
+import CreateTodo from "./pages/CreateTodo";
+import SingleTodo from './pages/SingleTodo';
+import UpdateTodo from './pages/UpdateTodo';
+import Login from './pages/Login';
 import { Provider as ReduxProvider } from 'react-redux';
 import {store} from "./redux/store"
 function App() {

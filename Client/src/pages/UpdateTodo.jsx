@@ -1,10 +1,12 @@
-import NavBar from "./NavBar";
+import { useSelector } from "react-redux";
+import NavBar from "../components/NavBar";
 import { useState, useEffect } from "react";
 import { useParams,useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const UpdateTodo = () => {
     const navigate = useNavigate();
+    const token = useSelector(state => state.auth.token)
     const [formData,setFormData] = useState({
         title :"",
         writtenBy:"",
@@ -12,7 +14,7 @@ const UpdateTodo = () => {
     })
     const {id} = useParams();
     useEffect(() => {
-        fetch(`http://localhost:4000/api/v1/get-todo/${id}`)
+        fetch(`${import.meta.env.VITE_REACT_APP_BASE_URL}/get-todo/${id}`, {method: "POST" , headers : {"Content-Type" : "application/json"} , body:JSON.stringify({token})})
         .then(res => {
             return res.json();
         })
@@ -21,9 +23,10 @@ const UpdateTodo = () => {
             setFormData(data.data);
         })
     },[])
-    const updateHandler = (e) => {
+    const updateHandler = async (e) => {
         e.preventDefault();
-        fetch(`http://localhost:4000/api/v1/update-todo/${id}`, {method: "PUT" , headers : {"Content-Type" : "application/json"} , body:JSON.stringify(formData)})
+        console.log(formData)
+        fetch(`${import.meta.env.VITE_REACT_APP_BASE_URL}/update-todo/${id}`, {method: "PUT" , headers : {"Content-Type" : "application/json"} , body:JSON.stringify({formData,token})})
         .then (res =>{
             return res.json()
         })
@@ -73,11 +76,16 @@ const UpdateTodo = () => {
             }
         })
     }
-    toast.onChange(v => {
-        if(v.status === "removed" && v.type === 'success'){
-            navigate("/");
+    useEffect(()=>{
+        toast.onChange(v => {
+            if(v.status === "removed" && v.type === 'success'){
+                navigate("/");
+            }
+        })
+        return()=>{
+            toast.onChange(undefined)
         }
-    })
+    },[toast])
     return (  
         <div className="w-full h-full">
             <NavBar/>

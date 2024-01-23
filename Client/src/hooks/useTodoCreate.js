@@ -1,13 +1,10 @@
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-const useTodoCreate = formData =>{
-    fetch(`${import.meta.env.VITE_REACT_APP_BASE_URL}/create-todo`,{method:"POST",headers:{"Content-Type" : "application/json"},body:JSON.stringify(formData)})
+const useTodoCreate = (formData,token) =>{
+    fetch(`${import.meta.env.VITE_REACT_APP_BASE_URL}/create-todo`,{method:"POST",headers:{"Content-Type" : "application/json"},body:JSON.stringify({formData,token})})
         .then(res =>{
-            console.log(res);
             return res.json();
         }).then(data=>{
-            // console.log(data);
             if (data.success){
                 toast.success('Created Successfully !', {
                     position: "top-right",

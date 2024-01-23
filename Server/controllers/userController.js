@@ -1,4 +1,4 @@
-const acc = require("../models/user");
+const {userModel} = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -21,7 +21,7 @@ exports.isLoggedin = async(req,res) => {
 exports.signup = async(req,res) => {   
     try{
         const {username,email,password,regd} = req.body;
-        const user = await acc.findOne({email});
+        const user = await userModel.findOne({email});
         if (user){
             res.status(400).json(
                 {
@@ -63,7 +63,7 @@ exports.signup = async(req,res) => {
 exports.login = async(req,res) => {   
     try{
         const {email,password} = req.body;
-        let user = await acc.findOne({email});
+        let user = await userModel.findOne({email});
         if (!user){
             res.status(401).json(
                 {

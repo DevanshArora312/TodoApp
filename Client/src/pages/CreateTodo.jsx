@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import NavBar from "./NavBar";
+import NavBar from "../components/NavBar";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
-import useTodoCreate from "./hooks/useTodoCreate"
+import useTodoCreate from "../hooks/useTodoCreate"
+import { useSelector } from "react-redux";
 const CreateTodo = () => {
     const navigate = useNavigate();
+    const token = useSelector(state => state.auth.token)
     const [formData,setFormData] = useState({
         title :"",
         writtenBy:"",
@@ -22,13 +24,18 @@ const CreateTodo = () => {
     }
     const submitHandler = (e) => {
         e.preventDefault();
-        useTodoCreate(formData);
+        useTodoCreate(formData,token);
     }
-    toast.onChange(v => {
-        if(v.status === "removed" && v.type === 'success'){
-            navigate("/");
+    useEffect(()=>{
+        toast.onChange(v => {
+            if(v.status === "removed" && v.type === 'success'){
+                navigate("/");
+            }
+        })
+        return()=>{
+            toast.onChange(undefined)
         }
-      })
+    },[toast])
     // console.log(formData)
     return (  
         <div className="w-full h-full">
