@@ -22,7 +22,12 @@ const todoSchema = mongoose.Schema(
             type:Boolean,
             required:false,
             default:null
+        },
+        byUser : {
+            type : mongoose.Schema.Types.ObjectId,
+            ref: "user"
         }
+
     }
 )
 

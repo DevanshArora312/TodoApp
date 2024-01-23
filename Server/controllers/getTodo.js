@@ -1,9 +1,13 @@
 const todo = require("../models/todos");
+const {userModel} = require("../models/user");
 
 exports.getTodo = async (req,res) => {
-    // console.log("Hello");
+    console.log(req.user);
     try {
-        const todos = await todo.find({});
+        const id = req.user.id;
+        const userAcc = await userModel.findById(id).populate("todos").exec();
+        // const todos = await todo.find({});
+        const todos = userAcc.todos; 
         return res.status(200).json(
             {
                 ok:true,
@@ -38,7 +42,14 @@ exports.getTodoByID = async (req,res) => {
                 }
             )
         }
-        
+        if(todo._id !== req.user.id){
+            return res.status(401).json(
+                {
+                    success : false,
+                    message : "Unauthorised"
+                }
+            )
+        }
         return res.status(200).json(
             {
                 ok:true,

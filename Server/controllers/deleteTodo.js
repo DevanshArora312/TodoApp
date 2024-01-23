@@ -4,6 +4,19 @@ const commModel = require("../models/comments");
 exports.deleteTodo = async (req,res) => {
     try {
         const {id} = req.params;
+        const todoInstance = await todo.findById(id);
+        if(!todoInstance){
+            res.status(404).json({
+                success:false,
+                message:"No todo found!"
+            })
+        }
+        if(todo._id !== id){
+            res.status(401).json({
+                success:false,
+                message:"Unauthorized"
+            })
+        }
         const todos = await todo.findByIdAndDelete( {_id : id} );
         const comms = await commModel.find({});
         if (comms){

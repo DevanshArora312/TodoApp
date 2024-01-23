@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import NavBar from "./NavBar";
 import { Link } from "react-router-dom";
 const Home = () => {
-    const [todos,setTodos] = useState(null)
+    const [todos,setTodos] = useState(null);
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIxQDEyMy5jb20iLCJpZCI6IjY1YWY3OGYwYmQwMTVmNDExODRlN2FhZCIsImlhdCI6MTcwNTk5ODY1NSwiZXhwIjoxNzA2MTcxNDU1fQ.safgSHvZDxwDZZlktfu9RqAaBLW4LGc51MUncRj2j28";
     useEffect( ()=> {
-        fetch(`${import.meta.env.VITE_REACT_APP_BASE_URL}/get-todo`)
+        fetch(`${import.meta.env.VITE_REACT_APP_BASE_URL}/get-todo`,{method:"POST",headers:{"Content-Type" : "application/json"},body:JSON.stringify({token})})
     .then(res => {
         return res.json();
         // console.log(res.json());
@@ -13,7 +14,7 @@ const Home = () => {
         // console.log(data.data);
     })
     .catch(err=> {
-        console.log(err);
+        console.log(err.message);
     })
     },[]);
     return ( 
@@ -25,7 +26,7 @@ const Home = () => {
                 todos && todos.map( (el,index) => {
                     return (
                         <Link to = {`/todos/${el._id}`} key={index}>
-                        <div className="w-[60vw] flex flex-col rounded-lg hover:shadow-xl shadow-black gap-4 p-5" >
+                        <div className={`${el.liked ? 'border-l-red-500' : ""} w-[60vw] flex flex-col rounded-lg hover:shadow-xl shadow-black gap-4 p-5`} >
                             <h2 className="text-red-500">{el.title}</h2>
                             <h6 className="text-[20px] opacity-80">Written By: {el.writtenBy} </h6>
                         </div>
