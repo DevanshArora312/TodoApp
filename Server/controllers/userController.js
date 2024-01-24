@@ -21,13 +21,31 @@ exports.isLoggedin = async(req,res) => {
 exports.signup = async(req,res) => {   
     try{
         const {username,email,password,regd} = req.body;
+        if(username === ""){
+            return res.status(400).json({
+                success:false,
+                message:"Username can't be empty!"
+            })
+        }
+        if(email === ""){
+            return res.status(400).json({
+                success:false,
+                message:"Email can't be empty!"
+            })
+        }
+        if(password === ""){
+            return res.status(400).json({
+                success:false,
+                message:"Password can't be empty!"
+            })
+        }
         const user = await userModel.findOne({email});
         if (user){
             res.status(400).json(
                 {
                     ok:false,
                     success:false,
-                    data:"Email already exists!"
+                    message:"Email already exists!"
                 }
             )
             return;
@@ -39,12 +57,19 @@ exports.signup = async(req,res) => {
         catch(err){
             console.log("Error in hashing!");
         }
-        const response = await acc.create({username,email,password:newpassword,regd});
+        const response = await userModel.create({username,email,password:newpassword,regd});
+        const payLoad = {
+            email : response.email,
+            id : response._id,
+        }
+        let token = jwt.sign(payLoad,process.env.JWT_SECRET_KEY,{ expiresIn: "48h" });
+            
         res.status(200).json(
             {
                 ok:true,
                 success:true,
-                data:response
+                data:response,
+                token
             }
         )
     }
@@ -54,7 +79,7 @@ exports.signup = async(req,res) => {
             {
                 ok:false,
                 success:false,
-                data:"Server Error"
+                message:"Server Error"
             }
         )
     }
@@ -63,13 +88,14 @@ exports.signup = async(req,res) => {
 exports.login = async(req,res) => {   
     try{
         const {email,password} = req.body;
+        
         let user = await userModel.findOne({email});
         if (!user){
             res.status(401).json(
                 {
                     ok:false,
                     success:false,
-                    data:"Account with given email not found!"
+                    message:"Account with given email not found!"
                 }
             )
             return;
@@ -78,7 +104,6 @@ exports.login = async(req,res) => {
         const payLoad = {
             email : user.email,
             id : user._id,
-            role : user.role
         }
 
         if (await bcrypt.compare(password,user.password)){

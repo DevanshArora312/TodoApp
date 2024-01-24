@@ -19,28 +19,11 @@ const SingleTodo = () => {
     const {id} = useParams();
     const navigate  = useNavigate();
     const [deleted,setDeleted] = useState(false); 
-    const token = useSelector(state => state.auth.token);
+    const token = useSelector(state => {return state.auth.token});
     const todo = useSelector(state => state.todos.one_todo);
     const dispatch = useDispatch();
     
     useEffect(()=>{
-        fetch(`${import.meta.env.VITE_REACT_APP_BASE_URL}/isLoggedIn`,{method:"POST",headers:{"Content-Type" : "application/json"},body:JSON.stringify({token})})
-        .then(res => {
-            return res.json();
-        }).then(data => {
-            if(!data.success){
-                navigate("/login");
-            }else{
-                getTodo();
-            }
-        })
-        .catch(err=> {
-            navigate("/login");
-        })
-        
-    },[])
-
-    async function getTodo(){
         fetch(`${import.meta.env.VITE_REACT_APP_BASE_URL}/get-todo/${id}`,{method:"POST",headers:{"Content-Type" : "application/json"},body:JSON.stringify({token})})
         .then(res => {
             return res.json();
@@ -49,7 +32,12 @@ const SingleTodo = () => {
             // console.log(data)
             dispatch(setOne(data.data));
         })
-    }
+        .catch(err=> {
+            console.log(err.message);
+            navigate("/login");
+        })
+    },[])
+
 
     useEffect(()=>{
         toast.onChange(v => {

@@ -7,14 +7,16 @@ import UpdateTodo from './pages/UpdateTodo';
 import Login from './pages/Login';
 import { Provider as ReduxProvider } from 'react-redux';
 import {store} from "./redux/store"
+import Signup from './pages/Signup';
 function App() {
   
   return (
     <ReduxProvider store={store}>
       <BrowserRouter>
         <Routes>
-          {/* <Route exact path = "/" element={<Login/>} /> */}
           <Route exact path = "/" element={<Home/>} />
+          <Route exact path = "/login" element={<Login/>} />
+          <Route exact path = "/signup" element={<Signup/>} />
           <Route exact path = "/todos/:id" element={<SingleTodo/>} /> 
           <Route exact path = "/create-todo" element={<CreateTodo/>} />
           <Route exact path = "/update-todo/:id" element={<UpdateTodo/>} />

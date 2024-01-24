@@ -4,11 +4,12 @@ require("dotenv").config();
 exports.auth = async (req,res,next) => {
     try{
         const token = req.body.token;
+        // console.log(token)
         if (!token){
             return res.status(401).json(
                 {
                     success:false,
-                    message : "TOKEN_INVALID_ERR"
+                    message : "TOKEN_INVALID_ERR_1"
                 }
             )
         }

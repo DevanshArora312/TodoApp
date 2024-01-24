@@ -41,7 +41,7 @@ const CreateTodo = () => {
         <div className="w-full h-full">
             <NavBar/>
             <h1 className="text-2xl px-[15%] my-5 mt-20">
-                Create a New Todo!
+                Create a New Task!
             </h1>
             <form className="text-xl w-full flex flex-col gap-10 py-10 px-[10%] justify-center items-center" onSubmit={submitHandler}>
                 <input className="sm:min-w-[0px] min-w-[200px] rounded-lg border-2 focus:outline-none p-2 w-2/3" placeholder="Enter Title" id ="title" name="title" value={formData.title} onChange={changeHandler}/>

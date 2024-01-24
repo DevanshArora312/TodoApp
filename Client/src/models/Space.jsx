@@ -44,7 +44,7 @@ export function Space(props) {
 
 
   return (
-    <a.group ref={spaceRef} {...props} dispose={null}>
+    <a.group ref={spaceRef} {...props} dispose={null} className="origin-center" > 
       <points
         geometry={nodes.Object_2.geometry}
         material={materials["Scene_-_Root"]}

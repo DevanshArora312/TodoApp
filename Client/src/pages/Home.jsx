@@ -9,39 +9,29 @@ const Home = () => {
     const token = useSelector(state => state.auth.token);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    
     useEffect(()=>{
-        fetch(`${import.meta.env.VITE_REACT_APP_BASE_URL}/isLoggedIn`,{method:"POST",headers:{"Content-Type" : "application/json"},body:JSON.stringify({token})})
-        .then(res => {
-            return res.json();
-        }).then(data => {
-            if(!data.success){
-                navigate("/login");
-            }else{
-                getData();
-            }
-        })
-        .catch(err=> {
-            navigate("/login");
-        })
-        
-    },[])
-    async function getData (){
         fetch(`${import.meta.env.VITE_REACT_APP_BASE_URL}/get-todo`,{method:"POST",headers:{"Content-Type" : "application/json"},body:JSON.stringify({token})})
         .then(res => {
             return res.json();
-        }).then(data => {
-            dispatch(setTodos(data.data));
+        })
+        .then(data => {
+            if(data.success){
+                dispatch(setTodos(data.data));
+            } else{
+                navigate('/login')
+            }
         })
         .catch(err=> {
-            console.log(err.message);
+            console.log("here",err.message);
+            navigate('/login');
         })
-        
-    } 
+    },[])
     return ( 
         <div className="w-screen">
         <NavBar/>
         <div className="text-3xl flex flex-col justify-center items-start px-[15%] pt-20 w-full">
-            <h1 className="pb-10 font-semibold">All todos!</h1>
+            <h1 className="pb-10 font-semibold">All tasks!</h1>
             {
                 todos && todos.map( (el,index) => {
                     return (
