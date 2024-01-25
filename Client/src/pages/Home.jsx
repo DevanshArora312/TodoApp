@@ -36,7 +36,7 @@ const Home = () => {
                 todos && todos.map( (el,index) => {
                     return (
                         <Link to = {`/todos/${el._id}`} key={index}>
-                        <div className={`${el.liked ? 'border-r-red-500 border-solid border-r-8' : ""} w-[60vw] flex flex-col rounded-lg hover:shadow-xl shadow-black gap-4 p-5`} >
+                        <div className={`${el.liked ? 'border-r-red-500 border-solid border-r-8' : ""} w-[55vw] flex flex-col rounded-lg hover:shadow-xl shadow-black gap-4 p-5`} >
                             <h2 className="text-red-500">{el.title}</h2>
                             <h6 className="text-[20px] opacity-80">Written By: {el.writtenBy} </h6>
                         </div>
