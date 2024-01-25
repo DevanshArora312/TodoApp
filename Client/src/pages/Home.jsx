@@ -28,7 +28,7 @@ const Home = () => {
         })
     },[])
     return ( 
-        <div className="w-screen">
+        <div className="w-screen overflow-x-hidden">
         <NavBar/>
         <div className="text-3xl flex flex-col justify-center items-start px-[15%] pt-20 w-full">
             <h1 className="pb-10 font-semibold">All tasks!</h1>
