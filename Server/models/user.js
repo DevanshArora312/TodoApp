@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema(
             type : [mongoose.Schema.Types.ObjectId],
             ref : "todo",
             required : false
+        },
+        bio :{
+            type : String,
+            required : false
         }
         
     }

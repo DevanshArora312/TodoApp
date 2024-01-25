@@ -8,7 +8,6 @@ const Sidebar = ({vis,setVis}) => {
     const token = useSelector(state => state.auth.token);
     const sideItem = {
         padding: "1rem",
-        fontSize: "15px",
         display: vis ? "flex" : "",
         justifyContent : "flex-end",
         fontSize :20,

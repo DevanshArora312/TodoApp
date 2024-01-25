@@ -162,3 +162,28 @@ exports.getUser = async (req,res) => {
         )
     }
 }
+exports.updateUser = async (req,res) => {
+    if(!req.user){
+        return res.status(401).json({
+            success : false,
+            message : "Unauthorized!"
+        })
+    }
+    try{
+        const {id} = req.user;
+        const reqUser = req.body.user;
+        const user = await userModel.findByIdAndUpdate(id,{username : reqUser.username , bio : reqUser.bio});
+        return res.status(200).json({
+            success:true,
+            user : user
+        })
+    } catch (err){
+        return res.status(500).json(
+            {
+                ok:false,
+                success:false,
+                data:"Server Error"
+            }
+        )
+    }
+}
