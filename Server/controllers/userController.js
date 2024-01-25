@@ -128,7 +128,32 @@ exports.login = async(req,res) => {
     }
     catch(err){
         console.log(err.message);
-        res.status(500).json(
+        return res.status(500).json(
+            {
+                ok:false,
+                success:false,
+                data:"Server Error"
+            }
+        )
+    }
+}
+
+exports.getUser = async (req,res) => {
+    if(!req.user){
+        return res.status(401).json({
+            success : false,
+            message : "Unauthorized!"
+        })
+    }
+    try{
+        const {id} = req.user;
+        const user = await userModel.findById(id);
+        return res.status(200).json({
+            success:true,
+            user : user
+        })
+    } catch (err){
+        return res.status(500).json(
             {
                 ok:false,
                 success:false,
