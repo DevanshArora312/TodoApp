@@ -18,7 +18,7 @@ const NavBar = () => {
                     Home
                 </Link>
                 <Link to="/create-todo" className = "hover:opacity-60">
-                    New Task
+                    New-Task
                 </Link>
                 <Link className = "hover:opacity-60" to="/profile">
                     Profile
