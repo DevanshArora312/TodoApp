@@ -8,7 +8,7 @@ const NavBar = () => {
     const dispatch = useDispatch();
     const [vis,setVis] = useState(false);
     return ( 
-        <div className="w-full h-auto flex sm:justify-around justify-between items-center pt-10 px-8 sm:px-4">
+        <div className="w-screen h-auto flex sm:justify-around justify-between items-center pt-10 px-8 sm:px-4">
             <div className="text-red-500 font-semibold text-[30px]">
                 The Task List
             </div>
