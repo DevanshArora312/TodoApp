@@ -3,7 +3,7 @@ import CreateComment from "./createComment";
 import {BsFillTrashFill} from "react-icons/bs"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import deleteHandler from "./hooks/useCommentDelete";
+import deleteHandler from "../hooks/useCommentDelete";
 import { useParams } from "react-router-dom";
 
 const Comments = () => {

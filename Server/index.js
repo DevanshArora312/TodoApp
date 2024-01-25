@@ -5,6 +5,7 @@ const app = express();
 const createTodoRoutes = require("./routes/createTodoRoutes");
 const getTodoRoutes = require("./routes/getTodoRoutes");
 const createCommentRoutes = require("./routes/commentRoutes");
+const userRoutes = require("./routes/userRoutes");
 const cors = require("cors");
 // const serverless = require("serverless-http");
 
@@ -19,7 +20,7 @@ app.use(cors());
 app.use("/api/v1",createTodoRoutes);
 app.use("/api/v1",getTodoRoutes);
 app.use("/api/v1",createCommentRoutes);
-
+app.use("/api/v1",userRoutes);
 app.get("/",(req,res) => {
     res.send("<h1> Hemllo guymz </h1>");
 })

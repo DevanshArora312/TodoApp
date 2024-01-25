@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import NavBar from "./NavBar";
+import NavBar from "../components/NavBar";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
-import useTodoCreate from "./hooks/useTodoCreate"
+import useTodoCreate from "../hooks/useTodoCreate"
+import { useSelector } from "react-redux";
 const CreateTodo = () => {
     const navigate = useNavigate();
+    const token = useSelector(state => state.auth.token)
     const [formData,setFormData] = useState({
         title :"",
         writtenBy:"",
@@ -22,19 +24,24 @@ const CreateTodo = () => {
     }
     const submitHandler = (e) => {
         e.preventDefault();
-        useTodoCreate(formData);
+        useTodoCreate(formData,token);
     }
-    toast.onChange(v => {
-        if(v.status === "removed" && v.type === 'success'){
-            navigate("/");
+    useEffect(()=>{
+        toast.onChange(v => {
+            if(v.status === "removed" && v.type === 'success'){
+                navigate("/");
+            }
+        })
+        return()=>{
+            toast.onChange(undefined)
         }
-      })
+    },[toast])
     // console.log(formData)
     return (  
         <div className="w-full h-full">
             <NavBar/>
             <h1 className="text-2xl px-[15%] my-5 mt-20">
-                Create a New Todo!
+                Create a New Task!
             </h1>
             <form className="text-xl w-full flex flex-col gap-10 py-10 px-[10%] justify-center items-center" onSubmit={submitHandler}>
                 <input className="sm:min-w-[0px] min-w-[200px] rounded-lg border-2 focus:outline-none p-2 w-2/3" placeholder="Enter Title" id ="title" name="title" value={formData.title} onChange={changeHandler}/>

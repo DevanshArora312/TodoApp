@@ -1,41 +1,54 @@
 import { useEffect, useState } from "react";
 import { useParams,useNavigate,Link} from "react-router-dom";
-import NavBar from "./NavBar";
+import NavBar from "../components/NavBar";
 import {BsFillTrashFill} from "react-icons/bs";
 import {FaRegEdit} from "react-icons/fa"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {FcLikePlaceholder , FcLike} from "react-icons/fc"
-import Comments from "./comments";
+import Comments from "../components/comments";
 import {motion,useAnimationControls} from "framer-motion";
-import likeHandler from "./hooks/useLikeHandler"
-import likeMotion from "./utils/likeMotion";
-import deleteHandler from "./hooks/useTodoDelete"
-
+import likeHandler from "../hooks/useLikeHandler"
+import likeMotion from "../utils/likeMotion";
+import deleteHandler from "../hooks/useTodoDelete"
+import { useDispatch, useSelector } from "react-redux";
+import {setOne} from "../redux/slices/todos"
 const SingleTodo = () => {
     const {animVar ,animationType} = likeMotion;
     const controls = useAnimationControls();
     const {id} = useParams();
     const navigate  = useNavigate();
-    const [todo,setTodo] = useState(null); 
     const [deleted,setDeleted] = useState(false); 
+    const token = useSelector(state => {return state.auth.token});
+    const todo = useSelector(state => state.todos.one_todo);
+    const dispatch = useDispatch();
     
-    useEffect(() => {
-        fetch(`${import.meta.env.VITE_REACT_APP_BASE_URL}/get-todo/${id}`)
+    useEffect(()=>{
+        fetch(`${import.meta.env.VITE_REACT_APP_BASE_URL}/get-todo/${id}`,{method:"POST",headers:{"Content-Type" : "application/json"},body:JSON.stringify({token})})
         .then(res => {
             return res.json();
         })
         .then(data => {
             // console.log(data)
-            setTodo(data.data);
+            dispatch(setOne(data.data));
+        })
+        .catch(err=> {
+            console.log(err.message);
+            navigate("/login");
         })
     },[])
-    
-    toast.onChange(v => {
-        if(v.status === "removed" && v.type === 'success' && v.data !== "child"){
-            navigate("/");
+
+
+    useEffect(()=>{
+        toast.onChange(v => {
+            if(v.status === "removed" && v.type === 'success'){
+                navigate("/");
+            }
+        })
+        return()=>{
+            toast.onChange(undefined)
         }
-    })
+    },[toast])
     return ( 
         <>
         <NavBar/> 
@@ -59,8 +72,8 @@ const SingleTodo = () => {
                             </div>
                             <div className="flex justify-center">
                                 <motion.button className="flex items-start text-[30px]" animationType={animationType} variants={animVar} animate = {controls} onClick={() => controls.start('visible')}> 
-                                    {!todo.liked && <FcLikePlaceholder className="p-[5px] hover:opacity-70" onClick={ () => likeHandler(todo,setTodo,id)} /> }
-                                    {todo.liked && <FcLike className="p-[5px] hover:opacity-70" onClick={ () => likeHandler(todo,setTodo,id)} /> }
+                                    {!todo.liked && <FcLikePlaceholder className="p-[5px] hover:opacity-70" onClick={ () => likeHandler(todo,token,id,dispatch)} /> }
+                                    {todo.liked && <FcLike className="p-[5px] hover:opacity-70" onClick={ () => likeHandler(todo,token,id,dispatch)} /> }
                                 </motion.button>
                             </div>
                         </div>

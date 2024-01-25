@@ -2,7 +2,7 @@ import { useState } from "react";
 import {BsFillInfoCircleFill} from "react-icons/bs"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import useCommentCreate from "./hooks/useCommentCreate";
+import useCommentCreate from "../hooks/useCommentCreate";
 
 const CreateComment = ({setChanged,todoID}) => {
     const [formData,setFormData] = useState({
@@ -30,7 +30,7 @@ const CreateComment = ({setChanged,todoID}) => {
             <form className="flex flex-col w-full pr-[10%] pl-5 gap-y-5 py-5 items-center" onSubmit={submitHandler}>
                 <input placeholder="Username" className="sm:min-w-[0px] min-w-[200px] rounded-lg focus:outline-none border-2 border-solid border-gray-200 p-3 w-full" name="user" onChange={changeHandler} value={formData.user} />
                 <textarea placeholder="Your Comment" className="w-full sm:min-w-[0px] min-w-[200px] rounded-lg focus:outline-none resize-none min-h-[100px] border-2 border-solid border-gray-200 p-3" name="comment" onChange={changeHandler} value={formData.comment} />
-                <input type="submit" className="w-auto px-2 rounded-xl text-white bg-black cursor-pointer px-5 py-3 hover:opacity-70 w-1/4"/>
+                <input type="submit" className="rounded-xl min-w-[100px] text-white bg-black cursor-pointer px-5 py-3 hover:opacity-70 w-1/4"/>
             </form>
             <ToastContainer
                 position="top-right"

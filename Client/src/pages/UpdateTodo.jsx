@@ -1,10 +1,12 @@
-import NavBar from "./NavBar";
+import { useSelector } from "react-redux";
+import NavBar from "../components/NavBar";
 import { useState, useEffect } from "react";
 import { useParams,useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const UpdateTodo = () => {
     const navigate = useNavigate();
+    const token = useSelector(state => state.auth.token)
     const [formData,setFormData] = useState({
         title :"",
         writtenBy:"",
@@ -12,7 +14,7 @@ const UpdateTodo = () => {
     })
     const {id} = useParams();
     useEffect(() => {
-        fetch(`http://localhost:4000/api/v1/get-todo/${id}`)
+        fetch(`${import.meta.env.VITE_REACT_APP_BASE_URL}/get-todo/${id}`, {method: "POST" , headers : {"Content-Type" : "application/json"} , body:JSON.stringify({token})})
         .then(res => {
             return res.json();
         })
@@ -21,9 +23,9 @@ const UpdateTodo = () => {
             setFormData(data.data);
         })
     },[])
-    const updateHandler = (e) => {
+    const updateHandler = async (e) => {
         e.preventDefault();
-        fetch(`http://localhost:4000/api/v1/update-todo/${id}`, {method: "PUT" , headers : {"Content-Type" : "application/json"} , body:JSON.stringify(formData)})
+        fetch(`${import.meta.env.VITE_REACT_APP_BASE_URL}/update-todo/${id}`, {method: "PUT" , headers : {"Content-Type" : "application/json"} , body:JSON.stringify({formData,token})})
         .then (res =>{
             return res.json()
         })
@@ -73,22 +75,27 @@ const UpdateTodo = () => {
             }
         })
     }
-    toast.onChange(v => {
-        if(v.status === "removed" && v.type === 'success'){
-            navigate("/");
+    useEffect(()=>{
+        toast.onChange(v => {
+            if(v.status === "removed" && v.type === 'success'){
+                navigate("/");
+            }
+        })
+        return()=>{
+            toast.onChange(undefined)
         }
-    })
+    },[toast])
     return (  
         <div className="w-full h-full">
             <NavBar/>
             <h1 className="text-2xl px-[15%] my-5 mt-20">
-                Update a Todo!
+                Update a Task!
             </h1>
             <form className="text-xl w-full flex flex-col gap-10 py-10 px-[10%] justify-center items-center" onSubmit={updateHandler}>
                 <input className="sm:min-w-[0px] min-w-[200px] rounded-lg border-2 focus:outline-none p-2 w-2/3" placeholder="Enter Title" id ="title" name="title" value={formData.title} onChange={changeHandler}/>
                 <input className="sm:min-w-[0px] min-w-[200px] rounded-lg border-2 focus:outline-none p-2  w-2/3" placeholder="Written by" id ="writtenBy" name="writtenBy" value={formData.writtenBy} onChange={changeHandler}/>
                 <textarea className="sm:min-w-[0px] min-w-[200px] text-md rounded-lg border-2 min-h-[300px] focus:outline-none p-2 resize-none w-2/3" placeholder="Enter Body" id ="body" name="body" value={formData.body} onChange={changeHandler}/>
-                <input type="submit" className="rounded-xl text-white bg-black cursor-pointer px-5 py-3 hover:opacity-70"/>
+                <input type="submit" className="rounded-xl min-w-[100px] text-white bg-black cursor-pointer px-5 py-3 hover:opacity-70"/>
             </form>
             <ToastContainer
                 position="top-right"
