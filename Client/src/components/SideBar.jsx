@@ -1,10 +1,12 @@
 import { RxCross2 } from "react-icons/rx";
 import {Link} from "react-router-dom";
-import { dispatch } from "../redux/store";
+import { useDispatch } from "react-redux";
 import { setToken } from "../redux/slices/auth";
 import { useSelector } from "react-redux";
+import { setOne, setTodos } from "../redux/slices/todos";
 
 const Sidebar = ({vis,setVis}) => {
+    const dispatch = useDispatch();
     const token = useSelector(state => state.auth.token);
     const sideItem = {
         padding: "1rem",
@@ -28,6 +30,11 @@ const Sidebar = ({vis,setVis}) => {
         transition: "0.5s", 
         
         
+    }
+    const logoutHandler = () => {
+        dispatch(setToken(""));
+        dispatch(setTodos(null))
+        dispatch(setOne(null))
     }
     return ( 
         <div id="sideBar" style={sideBarStyle}>
@@ -57,7 +64,7 @@ const Sidebar = ({vis,setVis}) => {
                 width:"100%"
             }}/>
             <div style = {sideItem}>
-                <Link to="/login" style={{textDecoration:"none",color:"black"}} onClick={() => dispatch(setToken(""))}>Logout </Link>
+                <Link to="/login" style={{textDecoration:"none",color:"black"}} onClick={logoutHandler}>Logout </Link>
             </div>
             <hr style={{
                 width:"100%"
