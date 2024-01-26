@@ -4,9 +4,16 @@ import { useDispatch } from "react-redux";
 import Sidebar from "./SideBar";
 import { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { setOne, setTodos } from "../redux/slices/todos";
+
 const NavBar = () => {
     const dispatch = useDispatch();
     const [vis,setVis] = useState(false);
+    const logoutHandler = () => {
+        dispatch(setToken(""));
+        dispatch(setTodos(null))
+        dispatch(setOne(null))
+    }
     return ( 
         <div className="w-screen h-auto flex sm:justify-around justify-between items-center pt-10 px-8 sm:px-4">
             <div className="text-red-500 font-semibold text-[30px]">
@@ -23,7 +30,7 @@ const NavBar = () => {
                 <Link className = "hover:opacity-60" to="/profile">
                     Profile
                 </Link>
-                <Link to="/login" className = "hover:opacity-60" onClick={() => dispatch(setToken(""))}>
+                <Link to="/login" className = "hover:opacity-60" onClick={logoutHandler}>
                     Logout
                 </Link>
             </div>
